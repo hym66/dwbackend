@@ -34,7 +34,7 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo("1.0.0"))
                 .select()
                 // 指定当前包路径
-                .apis(RequestHandlerSelectors.basePackage("cn.edu.tongji.dwbackend.neo4j.controller;cn.edu.tongji.dwbackend.mysql.controller"))
+                .apis(RequestHandlerSelectors.basePackage("cn.edu.tongji.dwbackend.controller"))
                 // 扫描所有
                 .paths(PathSelectors.any())
                 .build();
@@ -49,7 +49,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo(String version) {
         // 用ApiInfoBuilder进行定制
         return new ApiInfoBuilder()
-                .title("数据仓库接口文档")
+                .title("mysql关系型数据库接口文档")
                 .version(version)
                 .build();
     }

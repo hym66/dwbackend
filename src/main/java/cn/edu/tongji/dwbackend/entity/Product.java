@@ -1,14 +1,14 @@
-package cn.edu.tongji.dwbackend.neo4j.entity;
+package cn.edu.tongji.dwbackend.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.neo4j.ogm.annotation.GeneratedValue;
-import org.neo4j.ogm.annotation.Id;
-import org.neo4j.ogm.annotation.NodeEntity;
 
 /**
  * @Author hym
@@ -19,14 +19,16 @@ import org.neo4j.ogm.annotation.NodeEntity;
  * @Throw $
  */
 
-@NodeEntity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@TableName("product")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class MovieNode {
-    @Id
-    @GeneratedValue
+public class Product {
+    @TableId(type = IdType.ASSIGN_ID)
     @JsonSerialize(using= ToStringSerializer.class)
-    private Long movieId;
+    Long productId;
+    @JsonSerialize(using= ToStringSerializer.class)
+    Long movieId;
+    String formatName;
 }
