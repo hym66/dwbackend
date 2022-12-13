@@ -3,6 +3,7 @@ package cn.edu.tongji.dwbackend.service.impl;
 import cn.edu.tongji.dwbackend.dto.ActorActor;
 import cn.edu.tongji.dwbackend.dto.ActorDirector;
 import cn.edu.tongji.dwbackend.entity.Actor;
+import cn.edu.tongji.dwbackend.entity.Product;
 import cn.edu.tongji.dwbackend.mapper.MovieMapper;
 import cn.edu.tongji.dwbackend.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,27 +25,27 @@ public class MovieServiceImpl implements MovieService {
     MovieMapper movieMapper;
 
     @Override
-    public int selectYearReleaseNum(short year) {
+    public Integer selectYearReleaseNum(short year) {
         return movieMapper.selectYearReleaseNum(year);
     }
 
     @Override
-    public int selectMonthReleaseNum(short year, byte month) {
+    public Integer selectMonthReleaseNum(short year, byte month) {
         return movieMapper.selectMonthReleaseNum(year, month);
     }
 
     @Override
-    public int selectSeasonReleaseNum(short year, byte season) {
+    public Integer selectSeasonReleaseNum(short year, byte season) {
         return movieMapper.selectSeasonReleaseNum(year, season);
     }
 
     @Override
-    public int selectProductNumByMovieId(Long movieId) {
+    public Integer selectProductNumByMovieId(Long movieId) {
         return movieMapper.selectProductNumByMovieId(movieId);
     }
 
     @Override
-    public int selectDirectorMovieNum(String directorName) {
+    public Integer selectDirectorMovieNum(String directorName) {
         return movieMapper.selectDirectorMovieNum(directorName);
     }
 
@@ -54,7 +55,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public int selectGenreMovieNum(String genreTitle) {
+    public Integer selectGenreMovieNum(String genreTitle) {
         return movieMapper.selectGenreMovieNum(genreTitle);
     }
 
@@ -76,5 +77,11 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<ActorActor> selectOftenActorActor() {
         return movieMapper.selectOftenActorActor();
+    }
+
+    @Override
+    public List<Product> selectSource(Long movieId) {
+        List<Product> productList = movieMapper.selectSource(movieId);
+        return productList;
     }
 }

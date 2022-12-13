@@ -4,6 +4,7 @@ import cn.edu.tongji.dwbackend.common.Result;
 import cn.edu.tongji.dwbackend.dto.ActorActor;
 import cn.edu.tongji.dwbackend.dto.ActorDirector;
 import cn.edu.tongji.dwbackend.entity.Actor;
+import cn.edu.tongji.dwbackend.entity.Product;
 import cn.edu.tongji.dwbackend.service.MovieService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,8 +38,10 @@ public class mysqlController {
     public Result<Integer> getYearReleaseNum(@ApiParam(name="year", value="要查找的年份", required = true)
                                                 @RequestParam("year") short year){
         try {
-            int yearReleaseNum = movieService.selectYearReleaseNum(year);
-            return Result.success(yearReleaseNum);
+            long start=System.currentTimeMillis();
+            Integer yearReleaseNum = movieService.selectYearReleaseNum(year);
+            long end=System.currentTimeMillis();
+            return Result.success(yearReleaseNum,end-start);
         }
         catch(Exception e){
             return Result.fail(500,e.getMessage());
@@ -52,8 +55,10 @@ public class mysqlController {
                                               @ApiParam(name="month", value="要查找的月份", required = true)
                                                   @RequestParam("month") byte month){
         try{
-            int monthReleaseNum = movieService.selectMonthReleaseNum(year,month);
-            return Result.success(monthReleaseNum);
+            long start=System.currentTimeMillis();
+            Integer monthReleaseNum = movieService.selectMonthReleaseNum(year,month);
+            long end=System.currentTimeMillis();
+            return Result.success(monthReleaseNum,end-start);
         }
         catch(Exception e){
             return Result.fail(500,e.getMessage());
@@ -67,8 +72,10 @@ public class mysqlController {
                                                @ApiParam(name="season", value="要查找的季度(1,2,3,4)", required = true)
                                                    @RequestParam("season") byte season){
         try{
-            int seasonReleaseNum = movieService.selectSeasonReleaseNum(year,season);
-            return Result.success(seasonReleaseNum);
+            long start=System.currentTimeMillis();
+            Integer seasonReleaseNum = movieService.selectSeasonReleaseNum(year,season);
+            long end=System.currentTimeMillis();
+            return Result.success(seasonReleaseNum,end-start);
         }
         catch(Exception e){
             return Result.fail(500,e.getMessage());
@@ -80,8 +87,10 @@ public class mysqlController {
     public Result<Integer> getProductNumByMovieId(@ApiParam(name="movieId", value="要查找的movieId", required = true)
                                                       @RequestParam("movieId") Long movieId){
         try{
-            int productNum = movieService.selectProductNumByMovieId(movieId);
-            return Result.success(productNum);
+            long start=System.currentTimeMillis();
+            Integer productNum = movieService.selectProductNumByMovieId(movieId);
+            long end=System.currentTimeMillis();
+            return Result.success(productNum,end-start);
         }
         catch (Exception e){
             return Result.fail(500,e.getMessage());
@@ -93,8 +102,10 @@ public class mysqlController {
     public Result<Integer> getDirectorMovieNum(@ApiParam(name="directorName", value="要查找的导演名字", required = true)
                                                    @RequestParam("directorName") String directorName){
         try{
-            int movieNum = movieService.selectDirectorMovieNum(directorName);
-            return Result.success(movieNum);
+            long start=System.currentTimeMillis();
+            Integer movieNum = movieService.selectDirectorMovieNum(directorName);
+            long end=System.currentTimeMillis();
+            return Result.success(movieNum,end-start);
         }
         catch(Exception e){
             return Result.fail(500,e.getMessage());
@@ -106,8 +117,10 @@ public class mysqlController {
     public Result<Actor> getActorMovieNum(@ApiParam(name="actorName", value="要查找的演员名字", required = true)
                                                @RequestParam("actorName") String actorName){
         try{
+            long start=System.currentTimeMillis();
             Actor actor = movieService.selectActorMovieNum(actorName);
-            return Result.success(actor);
+            long end=System.currentTimeMillis();
+            return Result.success(actor,end-start);
         }
         catch(Exception e){
             return Result.fail(500,e.getMessage());
@@ -119,8 +132,10 @@ public class mysqlController {
     public Result<Integer> getGenreMovieNum(@ApiParam(name="genreTitle", value="要查找的电影类型名称", required = true)
                                                 @RequestParam("genreTitle") String genreTitle){
         try{
-            int movieNum = movieService.selectGenreMovieNum(genreTitle);
-            return Result.success(movieNum);
+            long start=System.currentTimeMillis();
+            Integer movieNum = movieService.selectGenreMovieNum(genreTitle);
+            long end=System.currentTimeMillis();
+            return Result.success(movieNum,end-start);
         }
         catch(Exception e){
             return Result.fail(500,e.getMessage());
@@ -132,8 +147,10 @@ public class mysqlController {
     public Result<List<String>> getGreaterMovie(@ApiParam(name="minScore", value="评分下限", required = true)
                                                     @RequestParam("minScore") float minScore){
         try{
+            long start=System.currentTimeMillis();
             List<String> movieList = movieService.selectGreaterMovie(minScore);
-            return Result.success(movieList);
+            long end=System.currentTimeMillis();
+            return Result.success(movieList,end-start);
         }
         catch(Exception e){
             return Result.fail(500,e.getMessage());
@@ -144,8 +161,10 @@ public class mysqlController {
     @GetMapping("getPositiveMovie")
     public Result<List<String>> getPositiveMovie(){
         try{
+            long start=System.currentTimeMillis();
             List<String> movieList = movieService.selectPositiveMovie();
-            return Result.success(movieList);
+            long end=System.currentTimeMillis();
+            return Result.success(movieList,end-start);
         }
         catch(Exception e){
             return Result.fail(500,e.getMessage());
@@ -156,8 +175,10 @@ public class mysqlController {
     @GetMapping("getOftenActorDirector")
     public Result<List<ActorDirector>> getOftenActorDirector(){
         try{
+            long start=System.currentTimeMillis();
             List<ActorDirector> movieList = movieService.selectOftenActorDirector();
-            return Result.success(movieList);
+            long end=System.currentTimeMillis();
+            return Result.success(movieList,end-start);
         }
         catch (Exception e){
             return Result.fail(500,e.getMessage());
@@ -169,8 +190,25 @@ public class mysqlController {
     @GetMapping("getOftenActorActor")
     public Result<List<ActorActor>> getOftenActorActor(){
         try{
+            long start=System.currentTimeMillis();
             List<ActorActor> movieList = movieService.selectOftenActorActor();
-            return Result.success(movieList);
+            long end=System.currentTimeMillis();
+            return Result.success(movieList,end-start);
+        }
+        catch (Exception e){
+            return Result.fail(500,e.getMessage());
+        }
+    }
+
+    @ApiOperation("溯源查询：查询与一个电影相关的所有product")
+    @GetMapping("getSource")
+    public Result<List<Product>> getSource(@ApiParam(name="movieId", value="要查询的movieId", required = true)
+                                               @RequestParam("movieId") Long movieId){
+        try{
+            long start=System.currentTimeMillis();
+            List<Product> productList = movieService.selectSource(movieId);
+            long end=System.currentTimeMillis();
+            return Result.success(productList, end-start);
         }
         catch (Exception e){
             return Result.fail(500,e.getMessage());

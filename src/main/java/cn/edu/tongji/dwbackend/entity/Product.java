@@ -26,9 +26,8 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Product {
     @TableId(type = IdType.ASSIGN_ID)
-    @JsonSerialize(using= ToStringSerializer.class)
-    Long productId;
+    String productId;
     @JsonSerialize(using= ToStringSerializer.class)
     Long movieId;
-    String formatName;
+    String source;
 }
