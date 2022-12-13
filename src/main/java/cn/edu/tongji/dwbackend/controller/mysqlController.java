@@ -186,7 +186,7 @@ public class mysqlController {
 
     }
 
-    @ApiOperation("获取经常合作的导演和演员组合")
+    @ApiOperation("获取经常合作的演员组合")
     @GetMapping("getOftenActorActor")
     public Result<List<ActorActor>> getOftenActorActor(){
         try{

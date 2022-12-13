@@ -25,8 +25,8 @@ public interface MovieMapper extends BaseMapper<Movie> {
     Integer selectMonthReleaseNum(@Param("year") short year, @Param("month") byte month);
 
     //XX年XX季度有多少电影
-    @Select("SELECT release_num FROM time_month WHERE year=${year} AND season=${season}")
-    Integer selectSeasonReleaseNum(@Param("year") short year, @Param("month") byte season);
+    @Select("SELECT release_num FROM time_season WHERE year=${year} AND season=${season}")
+    Integer selectSeasonReleaseNum(@Param("year") short year, @Param("season") byte season);
 
     //周二新增多少电影
     //todo
@@ -57,7 +57,9 @@ public interface MovieMapper extends BaseMapper<Movie> {
     List<String> selectGreaterMovie(@Param("minScore") float minScore);
 
     //用户评价中有正面评价的电影
-    @Select("SELECT movie_title FROM movie WHERE three_star_num>0 OR four_star_num>0 OR five_star_num>0")
+    @Select("SELECT movie_title \n" +
+            "FROM movie JOIN `comment` USING(comment_id)\n" +
+            "WHERE three_star_num>0 OR four_star_num>0 OR five_star_num>0")
     List<String> selectPositiveMovie();
 
     //5 8.演员和导演的关系
@@ -65,7 +67,7 @@ public interface MovieMapper extends BaseMapper<Movie> {
     @Select("SELECT actor_name,director_name,COUNT(DISTINCT movie_id) AS cooperate_num " +
             "FROM actor_movie JOIN director_movie USING(movie_id) " +
             "GROUP BY actor_name,director_name " +
-            "HAVING COUNT(DISTINCT movie_id)>=3")
+            "HAVING COUNT(DISTINCT movie_id)>20")
     List<ActorDirector> selectOftenActorDirector();
 
     //经常一起合作的演员
@@ -73,7 +75,7 @@ public interface MovieMapper extends BaseMapper<Movie> {
             "FROM actor_movie AS actor_movie_1 JOIN actor_movie AS actor_movie_2 USING(movie_id) " +
             "WHERE actor_movie_1.actor_name <> actor_movie_2.actor_name " +
             "GROUP BY actor_movie_1.actor_name,actor_movie_2.actor_name " +
-            "HAVING COUNT(DISTINCT movie_id)>=3")
+            "HAVING COUNT(DISTINCT movie_id)>20")
     List<ActorActor> selectOftenActorActor();
 
     //溯源查询：一个电影的源product都有哪些
