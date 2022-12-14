@@ -1,6 +1,7 @@
 package cn.edu.tongji.dwbackend.mapper;
 
 import cn.edu.tongji.dwbackend.dto.ActorDirector;
+import cn.edu.tongji.dwbackend.dto.BasicMovie;
 import cn.edu.tongji.dwbackend.entity.Actor;
 import cn.edu.tongji.dwbackend.entity.Movie;
 import cn.edu.tongji.dwbackend.dto.ActorActor;
@@ -53,14 +54,14 @@ public interface MovieMapper extends BaseMapper<Movie> {
 
     //7.用户评价
     //用户评分X分以上的电影有哪些
-    @Select("SELECT movie_title FROM movie WHERE score>${minScore}")
-    List<String> selectGreaterMovie(@Param("minScore") float minScore);
+    @Select("SELECT movie_id, movie_title, score FROM movie WHERE score>=${minScore}")
+    List<Movie> selectGreaterMovie(@Param("minScore") float minScore);
 
     //用户评价中有正面评价的电影
-    @Select("SELECT movie_title \n" +
-            "FROM movie JOIN `comment` USING(comment_id)\n" +
+    @Select("SELECT movie_id, movie_title \n" +
+            "FROM movie JOIN comment USING(comment_id)\n" +
             "WHERE three_star_num>0 OR four_star_num>0 OR five_star_num>0")
-    List<String> selectPositiveMovie();
+    List<BasicMovie> selectPositiveMovie();
 
     //5 8.演员和导演的关系
     //经常一起合作的演员和导演有哪些
@@ -79,7 +80,7 @@ public interface MovieMapper extends BaseMapper<Movie> {
     List<ActorActor> selectOftenActorActor();
 
     //溯源查询：一个电影的源product都有哪些
-    @Select("SELECT product_id, movie_id, source " +
+    @Select("SELECT product_id, source " +
             "FROM product " +
             "WHERE movie_id=${movieId}")
     List<Product> selectSource(@Param("movieId") Long movieId);

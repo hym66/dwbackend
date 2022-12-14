@@ -2,7 +2,9 @@ package cn.edu.tongji.dwbackend.service.impl;
 
 import cn.edu.tongji.dwbackend.dto.ActorActor;
 import cn.edu.tongji.dwbackend.dto.ActorDirector;
+import cn.edu.tongji.dwbackend.dto.BasicMovie;
 import cn.edu.tongji.dwbackend.entity.Actor;
+import cn.edu.tongji.dwbackend.entity.Movie;
 import cn.edu.tongji.dwbackend.entity.Product;
 import cn.edu.tongji.dwbackend.mapper.MovieMapper;
 import cn.edu.tongji.dwbackend.service.MovieService;
@@ -60,12 +62,12 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<String> selectGreaterMovie(float minScore) {
+    public List<Movie> selectGreaterMovie(float minScore) {
         return movieMapper.selectGreaterMovie(minScore);
     }
 
     @Override
-    public List<String> selectPositiveMovie() {
+    public List<BasicMovie> selectPositiveMovie() {
         return movieMapper.selectPositiveMovie();
     }
 
@@ -82,6 +84,15 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Product> selectSource(Long movieId) {
         List<Product> productList = movieMapper.selectSource(movieId);
+        //构建url
+        for(Product p : productList){
+            if(p.getSource().equals("amazon")) {
+                p.setUrl("https://www.amazon.com/dp/" + p.getProductId());
+            }
+            else if(p.getSource().equals("imdb")){
+                p.setUrl("https://www.imdb.com/title/" + p.getProductId());
+            }
+        }
         return productList;
     }
 }

@@ -3,7 +3,9 @@ package cn.edu.tongji.dwbackend.controller;
 import cn.edu.tongji.dwbackend.common.Result;
 import cn.edu.tongji.dwbackend.dto.ActorActor;
 import cn.edu.tongji.dwbackend.dto.ActorDirector;
+import cn.edu.tongji.dwbackend.dto.BasicMovie;
 import cn.edu.tongji.dwbackend.entity.Actor;
+import cn.edu.tongji.dwbackend.entity.Movie;
 import cn.edu.tongji.dwbackend.entity.Product;
 import cn.edu.tongji.dwbackend.service.MovieService;
 import io.swagger.annotations.Api;
@@ -142,13 +144,13 @@ public class mysqlController {
         }
     }
 
-    @ApiOperation("获取xx评分以上的所有电影名")
+    @ApiOperation("获取xx评分以上的所有电影")
     @GetMapping("getGreaterMovie")
-    public Result<List<String>> getGreaterMovie(@ApiParam(name="minScore", value="评分下限", required = true)
+    public Result<List<Movie>> getGreaterMovie(@ApiParam(name="minScore", value="评分下限", required = true)
                                                     @RequestParam("minScore") float minScore){
         try{
             long start=System.currentTimeMillis();
-            List<String> movieList = movieService.selectGreaterMovie(minScore);
+            List<Movie> movieList = movieService.selectGreaterMovie(minScore);
             long end=System.currentTimeMillis();
             return Result.success(movieList,end-start);
         }
@@ -157,12 +159,12 @@ public class mysqlController {
         }
     }
 
-    @ApiOperation("查找有正面评价的所有电影名")
+    @ApiOperation("查找有正面评价的所有电影")
     @GetMapping("getPositiveMovie")
-    public Result<List<String>> getPositiveMovie(){
+    public Result<List<BasicMovie>> getPositiveMovie(){
         try{
             long start=System.currentTimeMillis();
-            List<String> movieList = movieService.selectPositiveMovie();
+            List<BasicMovie> movieList = movieService.selectPositiveMovie();
             long end=System.currentTimeMillis();
             return Result.success(movieList,end-start);
         }

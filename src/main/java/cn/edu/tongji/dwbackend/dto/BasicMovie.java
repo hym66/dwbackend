@@ -1,7 +1,6 @@
-package cn.edu.tongji.dwbackend.entity;
+package cn.edu.tongji.dwbackend.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -10,8 +9,6 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Table;
 
 /**
  * @Author hym
@@ -25,15 +22,11 @@ import javax.persistence.Table;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("product")
+@TableName("movie")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Product {
+public class BasicMovie {
     @TableId(type = IdType.ASSIGN_ID)
-    String productId;
-//    @JsonSerialize(using= ToStringSerializer.class)
-//    Long movieId;
-    String source;
-
-    @TableField(exist = false)
-    String url;
+    @JsonSerialize(using= ToStringSerializer.class)
+    private Long movieId;
+    private String movieTitle;
 }
