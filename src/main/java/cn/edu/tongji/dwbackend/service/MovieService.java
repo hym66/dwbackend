@@ -2,6 +2,7 @@ package cn.edu.tongji.dwbackend.service;
 
 import cn.edu.tongji.dwbackend.dto.ActorDirector;
 import cn.edu.tongji.dwbackend.dto.BasicMovie;
+import cn.edu.tongji.dwbackend.dto.MovieProduct;
 import cn.edu.tongji.dwbackend.entity.Actor;
 import cn.edu.tongji.dwbackend.dto.ActorActor;
 import cn.edu.tongji.dwbackend.entity.Movie;
@@ -25,4 +26,5 @@ public interface MovieService {
     List<ActorDirector> selectOftenActorDirector();
     List<ActorActor> selectOftenActorActor();
     List<Product> selectSource(Long movieId);
+    List<MovieProduct> selectMovieProduct(String movieTitle);
 }

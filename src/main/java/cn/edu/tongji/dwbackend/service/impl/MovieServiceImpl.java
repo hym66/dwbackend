@@ -3,6 +3,7 @@ package cn.edu.tongji.dwbackend.service.impl;
 import cn.edu.tongji.dwbackend.dto.ActorActor;
 import cn.edu.tongji.dwbackend.dto.ActorDirector;
 import cn.edu.tongji.dwbackend.dto.BasicMovie;
+import cn.edu.tongji.dwbackend.dto.MovieProduct;
 import cn.edu.tongji.dwbackend.entity.Actor;
 import cn.edu.tongji.dwbackend.entity.Movie;
 import cn.edu.tongji.dwbackend.entity.Product;
@@ -11,6 +12,7 @@ import cn.edu.tongji.dwbackend.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -94,5 +96,21 @@ public class MovieServiceImpl implements MovieService {
             }
         }
         return productList;
+    }
+
+    @Override
+    public List<MovieProduct> selectMovieProduct(String movieTitle) {
+        List<Movie> movieList = movieMapper.selectNameMatchMovie(movieTitle);
+        if(movieList == null || movieList.size() == 0){
+            return null;
+        }
+
+        List<MovieProduct> movieProductList = new ArrayList<>();
+        for(Movie m : movieList){
+            List<Product> productList = movieMapper.selectSource(m.getMovieId());
+            MovieProduct movieProduct = new MovieProduct(m.getMovieId(),m.getMovieTitle(),productList);
+            movieProductList.add(movieProduct);
+        }
+        return movieProductList;
     }
 }

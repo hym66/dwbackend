@@ -4,6 +4,7 @@ import cn.edu.tongji.dwbackend.common.Result;
 import cn.edu.tongji.dwbackend.dto.ActorActor;
 import cn.edu.tongji.dwbackend.dto.ActorDirector;
 import cn.edu.tongji.dwbackend.dto.BasicMovie;
+import cn.edu.tongji.dwbackend.dto.MovieProduct;
 import cn.edu.tongji.dwbackend.entity.Actor;
 import cn.edu.tongji.dwbackend.entity.Movie;
 import cn.edu.tongji.dwbackend.entity.Product;
@@ -211,6 +212,21 @@ public class mysqlController {
             List<Product> productList = movieService.selectSource(movieId);
             long end=System.currentTimeMillis();
             return Result.success(productList, end-start);
+        }
+        catch (Exception e){
+            return Result.fail(500,e.getMessage());
+        }
+    }
+
+    @ApiOperation("溯源查询：根据名字模糊搜索，找到所有匹配的电影及其产品")
+    @GetMapping("getMovieProduct")
+    public Result<List<MovieProduct>> getMovieProduct(@ApiParam(name="movieTitle", value="要查询的电影名", required = true)
+                                                          @RequestParam("movieTitle") String movieTitle){
+        try{
+            long start=System.currentTimeMillis();
+            List<MovieProduct> movieProductList = movieService.selectMovieProduct(movieTitle);
+            long end=System.currentTimeMillis();
+            return Result.success(movieProductList,end-start);
         }
         catch (Exception e){
             return Result.fail(500,e.getMessage());

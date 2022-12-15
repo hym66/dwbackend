@@ -79,9 +79,15 @@ public interface MovieMapper extends BaseMapper<Movie> {
             "HAVING COUNT(DISTINCT movie_id)>20")
     List<ActorActor> selectOftenActorActor();
 
-    //溯源查询：一个电影的源product都有哪些
+    //溯源查询：根据movieId查询，一个电影的源product都有哪些
     @Select("SELECT product_id, source " +
             "FROM product " +
             "WHERE movie_id=${movieId}")
     List<Product> selectSource(@Param("movieId") Long movieId);
+
+    //根据movieTitle，能够查询到多少部movie
+    @Select("SELECT movie_id, movie_title\n" +
+            "FROM movie\n" +
+            "WHERE movie_title like('%${movieTitle}%')")
+    List<Movie> selectNameMatchMovie(@Param("movieTitle") String movieTitle);
 }
