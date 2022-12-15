@@ -84,4 +84,16 @@ public interface MovieMapper extends BaseMapper<Movie> {
             "FROM product " +
             "WHERE movie_id=${movieId}")
     List<Product> selectSource(@Param("movieId") Long movieId);
+
+    @Select("SELECT movie_id FROM genre_movie WHERE genre_title='${genreTitle}'")
+    List<Long> selectMovieByGenre(@Param("genreTitle")String genreTitle);
+
+    @Select("SELECT movie_id FROM director_movie WHERE director_name='${director_name}'")
+    List<Long> selectMovieByDirector(@Param("director_name")String director_name);
+
+    @Select("SELECT movie_id FROM actor_movie WHERE actor_name='${name}' AND is_star=1")
+    List<Long> selectMovieByStar(@Param("name")String name);
+
+    @Select("SELECT movie_id FROM actor_movie WHERE actor_name='${name}'")
+    List<Long> selectMovieByActor(@Param("name")String name);
 }

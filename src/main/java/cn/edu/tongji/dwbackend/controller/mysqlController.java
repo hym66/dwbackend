@@ -4,6 +4,7 @@ import cn.edu.tongji.dwbackend.common.Result;
 import cn.edu.tongji.dwbackend.dto.ActorActor;
 import cn.edu.tongji.dwbackend.dto.ActorDirector;
 import cn.edu.tongji.dwbackend.dto.BasicMovie;
+import cn.edu.tongji.dwbackend.dto.MovieQuery;
 import cn.edu.tongji.dwbackend.entity.Actor;
 import cn.edu.tongji.dwbackend.entity.Movie;
 import cn.edu.tongji.dwbackend.entity.Product;
@@ -12,10 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -211,6 +209,19 @@ public class mysqlController {
             List<Product> productList = movieService.selectSource(movieId);
             long end=System.currentTimeMillis();
             return Result.success(productList, end-start);
+        }
+        catch (Exception e){
+            return Result.fail(500,e.getMessage());
+        }
+    }
+    @ApiOperation("根据多个条件查找符合要求的电影，条件可能为空")
+    @GetMapping("getMovieByMovieQuery")
+    public Result<List<BasicMovie>> getMovieByMovieQuery(MovieQuery movieQuery){
+        try{
+            long start=System.currentTimeMillis();
+            List<BasicMovie> movieList = movieService.selectMovieByMovieQuery(movieQuery);
+            long end=System.currentTimeMillis();
+            return Result.success(movieList, end-start);
         }
         catch (Exception e){
             return Result.fail(500,e.getMessage());
