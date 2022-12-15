@@ -1,7 +1,14 @@
 package cn.edu.tongji.dwbackend.service.impl;
 
+<<<<<<< HEAD
 import cn.edu.tongji.dwbackend.common.Result;
 import cn.edu.tongji.dwbackend.dto.*;
+=======
+import cn.edu.tongji.dwbackend.dto.ActorActor;
+import cn.edu.tongji.dwbackend.dto.ActorDirector;
+import cn.edu.tongji.dwbackend.dto.BasicMovie;
+import cn.edu.tongji.dwbackend.dto.MovieProduct;
+>>>>>>> origin/master
 import cn.edu.tongji.dwbackend.entity.Actor;
 import cn.edu.tongji.dwbackend.entity.Movie;
 import cn.edu.tongji.dwbackend.entity.Product;
@@ -13,10 +20,15 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD
 import javax.annotation.Resource;
 import java.sql.Wrapper;
 import java.util.*;
 import java.util.function.Consumer;
+=======
+import java.util.ArrayList;
+import java.util.List;
+>>>>>>> origin/master
 
 /**
  * @Author HUAWEI
@@ -104,6 +116,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+<<<<<<< HEAD
     public List<BasicMovie> selectMovieByMovieQuery(MovieQuery movieQuery) {
         QueryWrapper<Movie> queryWrapper_movie=new QueryWrapper<>();
         if (movieQuery.getMovieTitle()!=null) {
@@ -168,5 +181,20 @@ public class MovieServiceImpl implements MovieService {
         for (Time time:timeList)
             time_idList.add(time.getTimeId());
         return time_idList;
+=======
+    public List<MovieProduct> selectMovieProduct(String movieTitle) {
+        List<Movie> movieList = movieMapper.selectNameMatchMovie(movieTitle);
+        if(movieList == null || movieList.size() == 0){
+            return null;
+        }
+
+        List<MovieProduct> movieProductList = new ArrayList<>();
+        for(Movie m : movieList){
+            List<Product> productList = movieMapper.selectSource(m.getMovieId());
+            MovieProduct movieProduct = new MovieProduct(m.getMovieId(),m.getMovieTitle(),productList);
+            movieProductList.add(movieProduct);
+        }
+        return movieProductList;
+>>>>>>> origin/master
     }
 }
