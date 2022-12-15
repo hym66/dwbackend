@@ -4,7 +4,11 @@ import cn.edu.tongji.dwbackend.common.Result;
 import cn.edu.tongji.dwbackend.dto.ActorActor;
 import cn.edu.tongji.dwbackend.dto.ActorDirector;
 import cn.edu.tongji.dwbackend.dto.BasicMovie;
+<<<<<<< HEAD
 import cn.edu.tongji.dwbackend.dto.MovieQuery;
+=======
+import cn.edu.tongji.dwbackend.dto.MovieProduct;
+>>>>>>> origin/master
 import cn.edu.tongji.dwbackend.entity.Actor;
 import cn.edu.tongji.dwbackend.entity.Movie;
 import cn.edu.tongji.dwbackend.entity.Product;
@@ -214,6 +218,7 @@ public class mysqlController {
             return Result.fail(500,e.getMessage());
         }
     }
+<<<<<<< HEAD
     @ApiOperation("根据多个条件查找符合要求的电影，条件可能为空")
     @GetMapping("getMovieByMovieQuery")
     public Result<List<BasicMovie>> getMovieByMovieQuery(MovieQuery movieQuery){
@@ -222,6 +227,18 @@ public class mysqlController {
             List<BasicMovie> movieList = movieService.selectMovieByMovieQuery(movieQuery);
             long end=System.currentTimeMillis();
             return Result.success(movieList, end-start);
+=======
+
+    @ApiOperation("溯源查询：根据名字模糊搜索，找到所有匹配的电影及其产品")
+    @GetMapping("getMovieProduct")
+    public Result<List<MovieProduct>> getMovieProduct(@ApiParam(name="movieTitle", value="要查询的电影名", required = true)
+                                                          @RequestParam("movieTitle") String movieTitle){
+        try{
+            long start=System.currentTimeMillis();
+            List<MovieProduct> movieProductList = movieService.selectMovieProduct(movieTitle);
+            long end=System.currentTimeMillis();
+            return Result.success(movieProductList,end-start);
+>>>>>>> origin/master
         }
         catch (Exception e){
             return Result.fail(500,e.getMessage());
