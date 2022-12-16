@@ -1,18 +1,13 @@
 package cn.edu.tongji.dwbackend.service.impl;
 
-<<<<<<< HEAD
-import cn.edu.tongji.dwbackend.common.Result;
 import cn.edu.tongji.dwbackend.dto.*;
-=======
 import cn.edu.tongji.dwbackend.dto.ActorActor;
 import cn.edu.tongji.dwbackend.dto.ActorDirector;
 import cn.edu.tongji.dwbackend.dto.BasicMovie;
 import cn.edu.tongji.dwbackend.dto.MovieProduct;
->>>>>>> origin/master
 import cn.edu.tongji.dwbackend.entity.Actor;
 import cn.edu.tongji.dwbackend.entity.Movie;
 import cn.edu.tongji.dwbackend.entity.Product;
-import cn.edu.tongji.dwbackend.entity.Time;
 import cn.edu.tongji.dwbackend.mapper.MovieMapper;
 import cn.edu.tongji.dwbackend.mapper.TimeMapper;
 import cn.edu.tongji.dwbackend.service.MovieService;
@@ -20,15 +15,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
 import javax.annotation.Resource;
-import java.sql.Wrapper;
-import java.util.*;
-import java.util.function.Consumer;
-=======
 import java.util.ArrayList;
 import java.util.List;
->>>>>>> origin/master
 
 /**
  * @Author HUAWEI
@@ -116,7 +105,6 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-<<<<<<< HEAD
     public List<BasicMovie> selectMovieByMovieQuery(MovieQuery movieQuery) {
         QueryWrapper<Movie> queryWrapper_movie=new QueryWrapper<>();
         if (movieQuery.getMovieTitle()!=null) {
@@ -128,27 +116,27 @@ public class MovieServiceImpl implements MovieService {
             List<Long> movie_idList=movieMapper.selectMovieByGenre(movieQuery.getGenreTitle());
             queryWrapper_movie.like("movie_id",movie_idList);
         }
-        if ( movieQuery.getStartDate()!=null && movieQuery.getEndDate() != null){
+        if ( movieQuery.getStartTime()!=null && movieQuery.getEndTime() != null){
             System.out.println("date");
-            List<Long> time_idList=timeMapper.selectTimeidBetweenRange(movieQuery.getStartDate().getYear(),
-                    movieQuery.getStartDate().getMonth(),
-                    movieQuery.getStartDate().getDay(),
-                    movieQuery.getEndDate().getYear(),
-                    movieQuery.getEndDate().getMonth(),
-                    movieQuery.getEndDate().getDay());
+            List<Long> time_idList=timeMapper.selectTimeidBetweenRange(movieQuery.getStartTime().getYear(),
+                    movieQuery.getStartTime().getMonth(),
+                    movieQuery.getStartTime().getDay(),
+                    movieQuery.getEndTime().getYear(),
+                    movieQuery.getEndTime().getMonth(),
+                    movieQuery.getEndTime().getDay());
             queryWrapper_movie.in("time_id", time_idList);
         }
 
-        if (movieQuery.getDirectorName() != null){
-            for (String name:movieQuery.getDirectorName())
+        if (movieQuery.getDirectorList() != null){
+            for (String name:movieQuery.getDirectorList())
                 queryWrapper_movie.in("movie_id",movieMapper.selectMovieByDirector(name));
         }
-        if (movieQuery.getStarName()!=null){
-            for (String name:movieQuery.getStarName())
+        if (movieQuery.getStarList()!=null){
+            for (String name:movieQuery.getStarList())
                 queryWrapper_movie.in("movie_id",movieMapper.selectMovieByStar(name));
         }
-        if (movieQuery.getActorName()!=null){
-            for (String name:movieQuery.getActorName())
+        if (movieQuery.getActorList()!=null){
+            for (String name:movieQuery.getActorList())
                 queryWrapper_movie.in("movie_id",movieMapper.selectMovieByActor(name));
         }
         if (movieQuery.getMaxScore()>1e-7){
@@ -166,22 +154,7 @@ public class MovieServiceImpl implements MovieService {
         return basicMovies;
     }
 
-    public List<Long>laterThanStart(BasicTime start, BasicTime end){
-        QueryWrapper<Time> queryWrapper=new QueryWrapper<>();
-        QueryWrapper<Time> queryWrapper2=new QueryWrapper<>();
-        queryWrapper2.lt("year",end.getYear()).or(wrapper -> wrapper
-                .eq("year",end.getYear()).lt("month",end.getMonth())).or(wrapper -> wrapper
-                .eq("year",end.getYear()).eq("month",end.getMonth()).le("weekday",end.getDay()));
-        queryWrapper.gt("year",start.getYear()).or(wrapper -> wrapper
-                .eq("year",start.getYear()).gt("month",start.getMonth())).or(wrapper -> wrapper
-                .eq("year",start.getYear()).eq("month",start.getMonth()).ge("weekday",start.getDay()));
-        timeMapper.selectList(queryWrapper);
-        List<Time> timeList = timeMapper.selectList(queryWrapper);
-        List<Long> time_idList = new ArrayList<>();
-        for (Time time:timeList)
-            time_idList.add(time.getTimeId());
-        return time_idList;
-=======
+
     public List<MovieProduct> selectMovieProduct(String movieTitle) {
         List<Movie> movieList = movieMapper.selectNameMatchMovie(movieTitle);
         if(movieList == null || movieList.size() == 0){
@@ -195,6 +168,5 @@ public class MovieServiceImpl implements MovieService {
             movieProductList.add(movieProduct);
         }
         return movieProductList;
->>>>>>> origin/master
     }
 }
