@@ -2,11 +2,8 @@ package cn.edu.tongji.dwbackend.service;
 
 import cn.edu.tongji.dwbackend.dto.ActorDirector;
 import cn.edu.tongji.dwbackend.dto.BasicMovie;
-<<<<<<< HEAD
 import cn.edu.tongji.dwbackend.dto.MovieQuery;
-=======
 import cn.edu.tongji.dwbackend.dto.MovieProduct;
->>>>>>> origin/master
 import cn.edu.tongji.dwbackend.entity.Actor;
 import cn.edu.tongji.dwbackend.dto.ActorActor;
 import cn.edu.tongji.dwbackend.entity.Movie;
@@ -30,9 +27,6 @@ public interface MovieService {
     List<ActorDirector> selectOftenActorDirector();
     List<ActorActor> selectOftenActorActor();
     List<Product> selectSource(Long movieId);
-<<<<<<< HEAD
     List<BasicMovie> selectMovieByMovieQuery(MovieQuery movieQuery);
-=======
     List<MovieProduct> selectMovieProduct(String movieTitle);
->>>>>>> origin/master
 }
