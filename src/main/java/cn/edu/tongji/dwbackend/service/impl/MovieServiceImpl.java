@@ -115,7 +115,7 @@ public class MovieServiceImpl implements MovieService {
             System.out.println("genre_title");
             List<Long> movie_idList=movieMapper.selectMovieByGenre(movieQuery.getGenreTitle());
             if (movie_idList.size()>0)
-                queryWrapper_movie.like("movie_id",movie_idList);
+                queryWrapper_movie.in("movie_id",movie_idList);
             else
                 return new ArrayList<>();
         }
