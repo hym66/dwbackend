@@ -24,7 +24,12 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MovieProduct {
     @JsonSerialize(using= ToStringSerializer.class)
-    Long movieId;
-    String movieTitle;
-    List<Product> productList;
+    private Long movieId;
+    private String movieTitle;
+    private float score;
+    private List<String> actor;
+    private List<String> director;
+    private String time;
+    private int commentNum;
+    private List<Product> productList;
 }
