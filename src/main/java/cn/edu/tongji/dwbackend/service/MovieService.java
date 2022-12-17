@@ -29,4 +29,5 @@ public interface MovieService {
     List<Product> selectSource(Long movieId);
     List<BasicMovie> selectMovieByMovieQuery(MovieQuery movieQuery);
     List<MovieProduct> selectMovieProduct(String movieTitle);
+    List<Long> selectMovieByActor(String actor_name);
 }

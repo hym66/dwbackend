@@ -118,12 +118,24 @@ public class MovieServiceImpl implements MovieService {
         }
         if ( movieQuery.getStartTime()!=null && movieQuery.getEndTime() != null){
             System.out.println("date");
-            List<Long> time_idList=timeMapper.selectTimeidBetweenRange(movieQuery.getStartTime().getYear(),
-                    movieQuery.getStartTime().getMonth(),
-                    movieQuery.getStartTime().getDay(),
-                    movieQuery.getEndTime().getYear(),
-                    movieQuery.getEndTime().getMonth(),
-                    movieQuery.getEndTime().getDay());
+
+
+            String[] startTimeList = movieQuery.getStartTime().split("-");
+            String[] endTimeList = movieQuery.getStartTime().split("-");
+
+            BasicTime startTime = new BasicTime(Short.parseShort(startTimeList[0]),
+                    Byte.parseByte(startTimeList[1]),
+                    Byte.parseByte(startTimeList[2]));
+            BasicTime endTime = new BasicTime(Short.parseShort(endTimeList[0]),
+                    Byte.parseByte(endTimeList[1]),
+                    Byte.parseByte(endTimeList[2]));
+
+            List<Long> time_idList = timeMapper.selectTimeidBetweenRange(startTime.getYear(),
+                    startTime.getMonth(),
+                    startTime.getDay(),
+                    endTime.getYear(),
+                    endTime.getMonth(),
+                    endTime.getDay());
             queryWrapper_movie.in("time_id", time_idList);
         }
 
@@ -168,5 +180,10 @@ public class MovieServiceImpl implements MovieService {
             movieProductList.add(movieProduct);
         }
         return movieProductList;
+    }
+
+    @Override
+    public List<Long> selectMovieByActor(String actor_name) {
+        return movieMapper.selectMovieByActor(actor_name);
     }
 }

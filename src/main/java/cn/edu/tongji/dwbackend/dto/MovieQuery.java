@@ -11,8 +11,8 @@ import java.util.List;
 public class MovieQuery {
     private String movieTitle;
     private String genreTitle;
-    private BasicTime startTime;
-    private BasicTime endTime;
+    private String startTime;
+    private String endTime;
     private List<String> directorList;
     private List<String> starList;
     private List<String> actorList;
