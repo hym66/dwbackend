@@ -121,31 +121,64 @@ public class MovieServiceImpl implements MovieService {
         }
         if (movieQuery.getGenreTitle() != null) {
             System.out.println("genre_title");
-            List<Long> movie_idList = movieMapper.selectMovieByGenre(movieQuery.getGenreTitle());
-            queryWrapper_movie.like("movie_id", movie_idList);
+            List<Long> movie_idList=movieMapper.selectMovieByGenre(movieQuery.getGenreTitle());
+            if (movie_idList.size()>0)
+                queryWrapper_movie.in("movie_id",movie_idList);
+            else
+                return new ArrayList<>();
         }
         if (movieQuery.getStartTime() != null && movieQuery.getEndTime() != null) {
             System.out.println("date");
-            List<Long> time_idList = timeMapper.selectTimeidBetweenRange(movieQuery.getStartTime().getYear(),
-                    movieQuery.getStartTime().getMonth(),
-                    movieQuery.getStartTime().getDay(),
-                    movieQuery.getEndTime().getYear(),
-                    movieQuery.getEndTime().getMonth(),
-                    movieQuery.getEndTime().getDay());
-            queryWrapper_movie.in("time_id", time_idList);
+
+
+            String[] startTimeList = movieQuery.getStartTime().split("-");
+            String[] endTimeList = movieQuery.getStartTime().split("-");
+
+            BasicTime startTime = new BasicTime(Short.parseShort(startTimeList[0]),
+                    Byte.parseByte(startTimeList[1]),
+                    Byte.parseByte(startTimeList[2]));
+            BasicTime endTime = new BasicTime(Short.parseShort(endTimeList[0]),
+                    Byte.parseByte(endTimeList[1]),
+                    Byte.parseByte(endTimeList[2]));
+
+            List<Long> time_idList = timeMapper.selectTimeidBetweenRange(startTime.getYear(),
+                    startTime.getMonth(),
+                    startTime.getDay(),
+                    endTime.getYear(),
+                    endTime.getMonth(),
+                    endTime.getDay());
+            if (time_idList.size()>0)
+                queryWrapper_movie.in("time_id", time_idList);
+            else
+                return new ArrayList<>();
         }
 
-        if (movieQuery.getDirectorList() != null) {
-            for (String name : movieQuery.getDirectorList())
-                queryWrapper_movie.in("movie_id", movieMapper.selectMovieByDirector(name));
+        if (movieQuery.getDirectorList() != null){
+            for (String name:movieQuery.getDirectorList()) {
+                List<Long> movie_idList = movieMapper.selectMovieByDirector(name);
+                if (movie_idList.size()>0)
+                    queryWrapper_movie.in("movie_id", movie_idList);
+                else
+                    return new ArrayList<>();
+            }
         }
-        if (movieQuery.getStarList() != null) {
-            for (String name : movieQuery.getStarList())
-                queryWrapper_movie.in("movie_id", movieMapper.selectMovieByStar(name));
+        if (movieQuery.getStarList()!=null){
+            for (String name:movieQuery.getStarList()) {
+                List<Long> movie_idList = movieMapper.selectMovieByStar(name);
+                if (movie_idList.size()>0)
+                    queryWrapper_movie.in("movie_id", movie_idList);
+                else
+                    return new ArrayList<>();
+            }
         }
-        if (movieQuery.getActorList() != null) {
-            for (String name : movieQuery.getActorList())
-                queryWrapper_movie.in("movie_id", movieMapper.selectMovieByActor(name));
+        if (movieQuery.getActorList()!=null){
+            for (String name:movieQuery.getActorList()) {
+                List<Long> movie_idList = movieMapper.selectMovieByActor(name);
+                if (movie_idList.size()>0)
+                    queryWrapper_movie.in("movie_id", movie_idList);
+                else
+                    return new ArrayList<>();
+            }
         }
         if (movieQuery.getMaxScore() > 1e-7) {
             System.out.println("socre");
@@ -186,5 +219,10 @@ public class MovieServiceImpl implements MovieService {
             movieProductList.add(movieProduct);
         }
         return movieProductList;
+    }
+
+    @Override
+    public List<Long> selectMovieByActor(String actor_name) {
+        return movieMapper.selectMovieByActor(actor_name);
     }
 }

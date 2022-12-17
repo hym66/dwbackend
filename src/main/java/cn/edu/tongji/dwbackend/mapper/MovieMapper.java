@@ -68,7 +68,7 @@ public interface MovieMapper extends BaseMapper<Movie> {
     @Select("SELECT actor_name,director_name,COUNT(DISTINCT movie_id) AS cooperate_num " +
             "FROM actor_movie JOIN director_movie USING(movie_id) " +
             "GROUP BY actor_name,director_name " +
-            "HAVING COUNT(DISTINCT movie_id)>20")
+            "HAVING COUNT(DISTINCT movie_id)>25")
     List<ActorDirector> selectOftenActorDirector();
 
     //经常一起合作的演员
@@ -76,7 +76,7 @@ public interface MovieMapper extends BaseMapper<Movie> {
             "FROM actor_movie AS actor_movie_1 JOIN actor_movie AS actor_movie_2 USING(movie_id) " +
             "WHERE actor_movie_1.actor_name <> actor_movie_2.actor_name " +
             "GROUP BY actor_movie_1.actor_name,actor_movie_2.actor_name " +
-            "HAVING COUNT(DISTINCT movie_id)>20")
+            "HAVING COUNT(DISTINCT movie_id)>50")
     List<ActorActor> selectOftenActorActor();
 
     //溯源查询：根据movieId查询，一个电影的源product都有哪些

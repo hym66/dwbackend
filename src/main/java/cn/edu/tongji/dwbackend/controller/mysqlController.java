@@ -244,4 +244,19 @@ public class mysqlController {
             return Result.fail(500,e.getMessage());
         }
     }
+
+    @ApiOperation("查找一个演员主演过的所有电影")
+    @GetMapping("selectMovieIdByStar")
+    public Result<List<Long>> getMovieByMovieQuery(@ApiParam(name="actorName", value="要查询的演员名字", required = true)
+                                                       @RequestParam("actorName") String actorName){
+        try{
+            long start=System.currentTimeMillis();
+            List<Long> movieList = movieService.selectMovieByActor(actorName);
+            long end=System.currentTimeMillis();
+            return Result.success(movieList, end-start);
+        }
+        catch (Exception e){
+            return Result.fail(500,e.getMessage());
+        }
+    }
 }
