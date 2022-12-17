@@ -114,7 +114,10 @@ public class MovieServiceImpl implements MovieService {
         if (movieQuery.getGenreTitle()!=null){
             System.out.println("genre_title");
             List<Long> movie_idList=movieMapper.selectMovieByGenre(movieQuery.getGenreTitle());
-            queryWrapper_movie.like("movie_id",movie_idList);
+            if (movie_idList.size()>0)
+                queryWrapper_movie.like("movie_id",movie_idList);
+            else
+                return new ArrayList<>();
         }
         if ( movieQuery.getStartTime()!=null && movieQuery.getEndTime() != null){
             System.out.println("date");
@@ -136,20 +139,38 @@ public class MovieServiceImpl implements MovieService {
                     endTime.getYear(),
                     endTime.getMonth(),
                     endTime.getDay());
-            queryWrapper_movie.in("time_id", time_idList);
+            if (time_idList.size()>0)
+                queryWrapper_movie.in("time_id", time_idList);
+            else
+                return new ArrayList<>();
         }
 
         if (movieQuery.getDirectorList() != null){
-            for (String name:movieQuery.getDirectorList())
-                queryWrapper_movie.in("movie_id",movieMapper.selectMovieByDirector(name));
+            for (String name:movieQuery.getDirectorList()) {
+                List<Long> movie_idList = movieMapper.selectMovieByDirector(name);
+                if (movie_idList.size()>0)
+                    queryWrapper_movie.in("movie_id", movie_idList);
+                else
+                    return new ArrayList<>();
+            }
         }
         if (movieQuery.getStarList()!=null){
-            for (String name:movieQuery.getStarList())
-                queryWrapper_movie.in("movie_id",movieMapper.selectMovieByStar(name));
+            for (String name:movieQuery.getStarList()) {
+                List<Long> movie_idList = movieMapper.selectMovieByStar(name);
+                if (movie_idList.size()>0)
+                    queryWrapper_movie.in("movie_id", movie_idList);
+                else
+                    return new ArrayList<>();
+            }
         }
         if (movieQuery.getActorList()!=null){
-            for (String name:movieQuery.getActorList())
-                queryWrapper_movie.in("movie_id",movieMapper.selectMovieByActor(name));
+            for (String name:movieQuery.getActorList()) {
+                List<Long> movie_idList = movieMapper.selectMovieByActor(name);
+                if (movie_idList.size()>0)
+                    queryWrapper_movie.in("movie_id", movie_idList);
+                else
+                    return new ArrayList<>();
+            }
         }
         if (movieQuery.getMaxScore()>1e-7){
             System.out.println("socre");
